@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.media.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="400.0" prefWidth="616.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cdarp.UI.Controller.ExcelWindowController"> 
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="New Document" />
+            <MenuItem mnemonicParsing="false" text="Open Document" />
+            <MenuItem mnemonicParsing="false" text="Open (google drive)" />
+            <Menu mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Save to Local" />
+            <MenuItem mnemonicParsing="false" text="Save As" />
+            <MenuItem mnemonicParsing="false" text="Save to Google Doc" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+                  <MenuItem mnemonicParsing="false" text="Load From Template" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit (close app)" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Change class" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem mnemonicParsing="false" text="About google doc" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="375.0" prefWidth="587.0" VBox.vgrow="ALWAYS">
+      <children>
+        <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+          <font>
+            <Font size="18.0" />
+          </font>
+        </Label>
+            <TableView fx:id="TableViewer" layoutY="28.0" prefHeight="342.0" prefWidth="616.0">
+              <columns>
+                <TableColumn fx:id="Time" prefWidth="75.0" text="Time" />
+                <TableColumn fx:id="Monday" prefWidth="75.0" text="Monday" />
+                  <TableColumn fx:id="Tuesday" prefWidth="82.0" text="Tuesday" />
+                  <TableColumn fx:id="Wendsday" prefWidth="74.0" text="Wendsday" />
+                  <TableColumn fx:id="Thursday" prefWidth="78.0" text="Thursday" />
+                  <TableColumn fx:id="Friday" prefWidth="75.0" text="Friday" />
+                  <TableColumn fx:id="Saturday" prefWidth="69.0" text="Saturday" />
+                  <TableColumn fx:id="Sunday" prefWidth="71.0" text="Sunday" />
+              </columns>
+            </TableView>
+            <TextField fx:id="SemesterName" layoutY="2.0" prefHeight="25.0" prefWidth="208.0" text="Semester: &lt;null&gt;" />
+            <TextField fx:id="SessionName" layoutX="207.0" layoutY="2.0" prefHeight="25.0" prefWidth="195.0" text="Session: &lt;null&gt;" />
+            <TextField fx:id="ClassName" layoutX="402.0" layoutY="2.0" prefHeight="25.0" prefWidth="214.0" text="Class: &lt;null&gt;" />
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>
