@@ -14,20 +14,21 @@ public class Session {
     public static final String SEASON_SPRING = "Spring";
     public static final String SEASON_FALL = "Fall";
     
-    private String year, season;
+    private int year;
+    private String season;
     private int session;
 
-    public Session(String year, String season, int session) {
+    public Session(int year, String season, int session) {
         this.year = year;
         this.season = season;
         this.session = session;
     }
 
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 

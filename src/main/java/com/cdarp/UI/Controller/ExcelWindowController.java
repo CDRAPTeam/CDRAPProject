@@ -5,15 +5,26 @@
  */
 package com.cdarp.UI.Controller;
 
+import com.cdarp.Fake.FakeDatabase;
+import com.cdarp.Transit.ClassSession;
 import com.cdarp.Transit.DateTimeRow;
-import com.cdarp.UI.Controller.Wrapper.SelfCallBack;
+import com.cdarp.Transit.UI.ExcelWindowResourceBundle;
+import com.cdarp.Transit.UI.ResourceList;
+import com.cdarp.UI.FXHandler;
+import com.cdarp.UI.FXUtils;
+import com.cdarp.UI.Controller.Wrapper.ComboBoxCell;
+
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
-import javafx.beans.value.ObservableValue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,7 +41,8 @@ import javafx.util.Callback;
  * @author Navnik
  */
 public class ExcelWindowController implements Initializable {
-
+	private ClassSession parent;
+	private ExcelWindowResourceBundle row;
     @FXML
     private TableView<DateTimeRow> TableViewer;
     @FXML
@@ -55,16 +67,34 @@ public class ExcelWindowController implements Initializable {
     private TextField SessionName;
     @FXML
     private TextField ClassName;
+    @FXML
+    private TextField YearName;
 
     /**
      * Initializes the controller class.
      */
+    @FXML
+     private void onNewDocument(ActionEvent event) {
+         try {
+             FXHandler.handle.switchStage("com/cdarp/UI/FXML/ExcelWindow.fxml",new ResourceList(Collections.emptyList()));
+         } catch (IOException ex) {
+             Logger.getLogger(StartWindowController.class.getName()).log(Level.SEVERE, null, ex);
+         }
+     }
+    @FXML
+    private void onReturnClick(ActionEvent event){
+    	try {
+			FXHandler.handle.switchStage(FXHandler.FX_PAGE_DIR_EXCEL_CLASS_WINDOW,FakeDatabase.findAndWrapClassSessions(row.getYear(), row.getSeason(),row.getSession()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         //this.Monday.setEditable(true);
-        Callback<TableColumn<DateTimeRow,DateTimeRow>,TableCell<DateTimeRow,DateTimeRow>> cellFactory;
-        cellFactory = new Callback<TableColumn<DateTimeRow,DateTimeRow>,TableCell<DateTimeRow,DateTimeRow>>() {
+        FXUtils.setupTableColumnView(Time, new Callback<TableColumn<DateTimeRow,DateTimeRow>,TableCell<DateTimeRow,DateTimeRow>>() {
             @Override
             public TableCell<DateTimeRow, DateTimeRow> call(TableColumn<DateTimeRow, DateTimeRow> param) {
                 TableCell cell = new TableCell<DateTimeRow,DateTimeRow>(){
@@ -81,19 +111,125 @@ public class ExcelWindowController implements Initializable {
                 };
                 return cell;
             }
-        };
-        this.Time.setCellFactory(cellFactory);
-        this.Time.setCellValueFactory(new SelfCallBack());
-        
-        this.Monday.setCellValueFactory(new SelfCallBack());
-        this.Monday.setCellFactory(new Callback<TableColumn<DateTimeRow,DateTimeRow>,TableCell<DateTimeRow,DateTimeRow>>() {
-            @Override
+        });
+        FXUtils.setupTableColumnView(Monday, new Callback<TableColumn<DateTimeRow,DateTimeRow>,TableCell<DateTimeRow,DateTimeRow>>(){
+
+			@Override
+			public TableCell<DateTimeRow, DateTimeRow> call(TableColumn<DateTimeRow, DateTimeRow> arg0) {
+				// TODO Auto-generated method stub
+				return new ComboBoxCell<DateTimeRow>(new ComboBoxCell.StringConverter<DateTimeRow>() {
+
+					@Override
+					public String getString(DateTimeRow t) {
+						// TODO Auto-generated method stub
+						return (t.getMonday() == 0 ? "Unselected": "Selected");
+					}
+
+					@Override
+					public String[] getOptions(DateTimeRow t) {
+						// TODO Auto-generated method stub
+						return new String[]{"Unselceted","Selected"};
+					}
+
+					@Override
+					public void onSelected(DateTimeRow base, String str) {
+						// TODO Auto-generated method stub
+						if(str.equals("Selected")){
+							base.setMonday(1);
+						}
+						else{
+							base.setMonday(0);
+						}
+						System.out.println(str);
+						
+					}
+				})
+				{
+					@Override
+					public void updateItem(DateTimeRow item, boolean empty){
+						if(!empty){
+							setStyle("-fx-background-color:"+(item.getMonday()==1?"#ff0000ff":"#0000ffff"));
+						}
+						super.updateItem(item, empty);
+					}
+					@Override
+					public void cancelEdit(){
+						super.cancelEdit();
+						DateTimeRow i = getItem();
+						if(i!=null){
+							setStyle("-fx-background-color:"+(i.getMonday()==1?"#ff0000ff":"#0000ffff"));
+						}
+					}
+				};
+				
+			}});
+        /*
+        FXUtils.setupTableColumnView(Monday,new Callback<TableColumn<DateTimeRow,DateTimeRow>,TableCell<DateTimeRow,DateTimeRow>>() {
+            @Override/*
             public TableCell<DateTimeRow, DateTimeRow> call(TableColumn<DateTimeRow, DateTimeRow> param) {
                 TableCell cell = new TableCell<DateTimeRow,DateTimeRow>(){
-                   
+                	private ComboBox<DateTimeRow> comboBox;
+                	@Override
+                    public void startEdit() {
+                        super.startEdit();
+
+                        if (comboBox == null) {
+                            createComboBox();
+                        }
+
+                        setGraphic(comboBox);
+                        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                    }
+                	private void createComboBox() {
+                        // ClassesController.getLevelChoice() is the observable list of String
+                        comboBox = new ComboBox<>();
+                        comboBox.setMinWidth(this.getWidth() - this.getGraphicTextGap()*2);
+                        comboBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                            @Override
+                            public void handle(KeyEvent t) {
+                                if (t.getCode() == KeyCode.ENTER) {
+                                    commitEdit((DateTimeRow) comboBox.getSelectionModel().getSelectedItem());
+                                } else if (t.getCode() == KeyCode.ESCAPE) {
+                                    cancelEdit();
+                                }
+                            }
+                        });
+                    }
+                	private String getString() {
+                        return getItem() == null ? "" : ""+getItem().getMonday();
+                    }
                     @Override
+                    public void cancelEdit() {
+                        super.cancelEdit();
+
+                        setText(String.valueOf(getItem()));
+                        setContentDisplay(ContentDisplay.TEXT_ONLY);
+                    }
+
                     public void updateItem(DateTimeRow item, boolean empty) {
                         super.updateItem(item, empty);
+
+                        if (empty) {
+                            setText(null);
+                            setGraphic(null);
+                        } else {
+                            if (isEditing()) {
+                                if (comboBox != null) {
+                                    comboBox.setValue(getItem());
+                                }
+                                setGraphic(comboBox);
+                                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                            } else {
+                                setText(getString());
+                                setContentDisplay(ContentDisplay.TEXT_ONLY);
+                            }
+                        }
+                    }
+                	
+                	/*@Override
+                    public void updateItem(DateTimeRow item, boolean empty) {
+                        super.updateItem(item, empty);
+                        super.getChildren().add(new ComboBox());
                         if(!empty){
                             //setText(item.getMilitaryTime());
                             
@@ -102,25 +238,25 @@ public class ExcelWindowController implements Initializable {
                         //setText(empty ? null : getString());
                     }
                 };
-                cell.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandlerSample());
+               // cell.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandlerSample());
                 return cell;
-            }
-        });
+            }*
+        });*/
+        
+        
+        TableViewer.setEditable(true);
+        Monday.setEditable(true);
         //this.Monday.addEventHandler(MouseEvent.MOUSE_CLICKED,  new EventHandlerSample());
+        row = (ExcelWindowResourceBundle) rb;
+        handleObserverList(row.getList());
         
-        ArrayList<DateTimeRow> row = new ArrayList(48);
-        for(int i = 0; i < 48;i++){
-            row.add(new DateTimeRow(i));
-            if(i%3==0){
-                row.get(i).setMonday(1);
-            }
-        }
-        handleObserverList(row);
-        
-        System.out.println(this.TableViewer.getItems().size());
-        System.out.println(row.size());
+        //Set the top fields
+        this.YearName.setText("Year: "+row.getYear());
+        this.SemesterName.setText("Semester: "+row.getSeason());
+        this.SessionName.setText("Session: "+row.getSession());
+        this.ClassName.setText("Class: "+row.getRoom());
     }    
-    private void handleObserverList(Collection<DateTimeRow> row){
+    private void handleObserverList(List<DateTimeRow> row){
         ObservableList<DateTimeRow> l = FXCollections.observableArrayList(row);
         this.TableViewer.setItems(l);
     }

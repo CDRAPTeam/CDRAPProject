@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.media.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -15,7 +16,8 @@
         <Menu mnemonicParsing="false" text="File">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#onNewDocument" text="New Document" />
-            <MenuItem mnemonicParsing="false" text="Open Document" />
+                  <MenuItem mnemonicParsing="false" text="New From Template" />
+            <MenuItem mnemonicParsing="false" text="Open Document (local)" />
             <MenuItem mnemonicParsing="false" text="Open (google drive)" />
             <Menu mnemonicParsing="false" text="Open Recent" />
             <SeparatorMenuItem mnemonicParsing="false" />
@@ -24,14 +26,17 @@
             <MenuItem mnemonicParsing="false" text="Save to Google Doc" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Preferences…" />
-                  <MenuItem mnemonicParsing="false" text="Load From Template" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Quit (close app)" />
           </items>
         </Menu>
+            <Menu mnemonicParsing="false" text="Navigation">
+               <items>
+            <MenuItem mnemonicParsing="false" onAction="#onReturnClick" text="Return" />
+               </items>
+            </Menu>
         <Menu mnemonicParsing="false" text="Edit">
           <items>
-            <MenuItem mnemonicParsing="false" text="Change class" />
             <MenuItem mnemonicParsing="false" text="Redo" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Cut" />
@@ -47,25 +52,36 @@
           <items>
             <MenuItem mnemonicParsing="false" text="About" />
                   <MenuItem mnemonicParsing="false" text="About google doc" />
+                  <MenuItem mnemonicParsing="false" text="Credit" />
           </items>
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="375.0" prefWidth="587.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="375.0" prefWidth="587.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" VBox.vgrow="ALWAYS">
       <children>
         <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
           <font>
             <Font size="18.0" />
           </font>
         </Label>
-            <TableView fx:id="TableViewer" layoutY="3.0" prefHeight="333.0" prefWidth="616.0">
+            <TableView fx:id="TableViewer" layoutY="3.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columns>
                 <TableColumn fx:id="Year" prefWidth="199.0" text="Year" />
                   <TableColumn fx:id="Season" prefWidth="193.0" text="Season" />
                   <TableColumn fx:id="Session" prefWidth="223.0" text="Session" />
               </columns>
+               <padding>
+                  <Insets bottom="1.0" left="1.0" right="1.0" />
+               </padding>
             </TableView>
       </children>
     </AnchorPane>
+    <HBox prefHeight="19.0" prefWidth="616.0">
+         <children>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSearch" prefHeight="58.0" prefWidth="100000.0" text="Mass Search" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="58.0" prefWidth="100000.0" text="New Room" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="58.0" prefWidth="100000.0" text="Test Button" />
+         </children>
+      </HBox>
   </children>
 </VBox>

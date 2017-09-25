@@ -10,12 +10,13 @@
 
 <VBox prefHeight="400.0" prefWidth="616.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cdarp.UI.Controller.ExcelWindowController"> 
   <children>
-    <MenuBar VBox.vgrow="NEVER">
+    <MenuBar>
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" text="New Document" />
-            <MenuItem mnemonicParsing="false" text="Open Document" />
+            <MenuItem mnemonicParsing="false" onAction="#onNewDocument" text="New Document" />
+                  <MenuItem mnemonicParsing="false" text="New From Template" />
+            <MenuItem mnemonicParsing="false" text="Open Document (local)" />
             <MenuItem mnemonicParsing="false" text="Open (google drive)" />
             <Menu mnemonicParsing="false" text="Open Recent" />
             <SeparatorMenuItem mnemonicParsing="false" />
@@ -24,14 +25,17 @@
             <MenuItem mnemonicParsing="false" text="Save to Google Doc" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Preferences…" />
-                  <MenuItem mnemonicParsing="false" text="Load From Template" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Quit (close app)" />
           </items>
         </Menu>
+            <Menu mnemonicParsing="false" text="Navigation">
+               <items>
+            <MenuItem mnemonicParsing="false" onAction="#onReturnClick" text="Return" />
+               </items>
+            </Menu>
         <Menu mnemonicParsing="false" text="Edit">
           <items>
-            <MenuItem mnemonicParsing="false" text="Change class" />
             <MenuItem mnemonicParsing="false" text="Redo" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Cut" />
@@ -47,18 +51,22 @@
           <items>
             <MenuItem mnemonicParsing="false" text="About" />
                   <MenuItem mnemonicParsing="false" text="About google doc" />
+                  <MenuItem mnemonicParsing="false" text="Credit" />
           </items>
         </Menu>
       </menus>
     </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="375.0" prefWidth="587.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="303.0" prefWidth="616.0" VBox.vgrow="ALWAYS">
       <children>
-        <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
-          <font>
-            <Font size="18.0" />
-          </font>
-        </Label>
-            <TableView fx:id="TableViewer" layoutY="28.0" prefHeight="342.0" prefWidth="616.0">
+            <HBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="29.0" prefWidth="616.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <TextField fx:id="YearName" editable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="100000.0" text="Year: &lt;null&gt;" />
+                  <TextField fx:id="SemesterName" editable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="100000.0" text="Semester: &lt;null&gt;" />
+                  <TextField fx:id="SessionName" editable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="100000.0" text="Session: &lt;null&gt;" />
+                  <TextField fx:id="ClassName" editable="false" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="100000.0" text="Class: &lt;null&gt;" />
+               </children>
+            </HBox>
+            <TableView fx:id="TableViewer" layoutY="25.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="350.0" prefWidth="616.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
               <columns>
                 <TableColumn fx:id="Time" prefWidth="75.0" text="Time" />
                 <TableColumn fx:id="Monday" prefWidth="75.0" text="Monday" />
@@ -70,10 +78,14 @@
                   <TableColumn fx:id="Sunday" prefWidth="71.0" text="Sunday" />
               </columns>
             </TableView>
-            <TextField fx:id="SemesterName" layoutY="2.0" prefHeight="25.0" prefWidth="208.0" text="Semester: &lt;null&gt;" />
-            <TextField fx:id="SessionName" layoutX="207.0" layoutY="2.0" prefHeight="25.0" prefWidth="195.0" text="Session: &lt;null&gt;" />
-            <TextField fx:id="ClassName" layoutX="402.0" layoutY="2.0" prefHeight="25.0" prefWidth="214.0" text="Class: &lt;null&gt;" />
       </children>
     </AnchorPane>
+    <HBox prefHeight="19.0" prefWidth="616.0">
+         <children>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="58.0" prefWidth="100000.0" text="Mass Search" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="58.0" prefWidth="100000.0" text="New Room" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="58.0" prefWidth="100000.0" text="Test Button" />
+         </children>
+      </HBox>
   </children>
 </VBox>

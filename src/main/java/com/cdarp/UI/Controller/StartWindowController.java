@@ -5,13 +5,18 @@
  */
 package com.cdarp.UI.Controller;
 
+import com.cdarp.Fake.FakeDatabase;
 import com.cdarp.Transit.DateTimeRow;
 import com.cdarp.Transit.Session;
+import com.cdarp.Transit.UI.ResourceList;
 import com.cdarp.UI.Controller.Wrapper.SelfCallBack;
 import com.cdarp.UI.FXHandler;
+import com.cdarp.UI.FXUtils;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -48,14 +53,31 @@ public class StartWindowController implements Initializable {
     /**
      * Initializes the controller class.
      */
+    @FXML
+    private void onNewDocument(ActionEvent event) {
+        try {
+            FXHandler.handle.switchStage("com/cdarp/UI/FXML/ExcelWindow.fxml",new ResourceList(Collections.emptyList()));
+        } catch (IOException ex) {
+            Logger.getLogger(StartWindowController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    @FXML
+    private void onReturnClick(ActionEvent event){
+    	
+    }
+    @FXML
+    private void onSearch(ActionEvent event){
+    	try {
+			FXHandler.handle.performPopup(FXHandler.FX_POPUP_DIR_SEARCH_WINDOW_DEFAULT, null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        Year.setCellValueFactory(new SelfCallBack());
-        Season.setCellValueFactory(new SelfCallBack());
-        Session.setCellValueFactory(new SelfCallBack());
-        
-        Year.setCellFactory(new Callback<TableColumn<Session,Session>,TableCell<Session,Session>>() {
+        FXUtils.setupTableColumnView(Year,new Callback<TableColumn<Session,Session>,TableCell<Session,Session>>() {
             @Override
             public TableCell<Session,Session> call(TableColumn<Session,Session> param) {
                 TableCell cell = new TableCell<Session,Session>(){
@@ -64,7 +86,7 @@ public class StartWindowController implements Initializable {
                     public void updateItem(Session item, boolean empty) {
                         super.updateItem(item, empty);
                         if(!empty){
-                            setText(item.getYear());
+                            setText(""+item.getYear());
                             
                             //setStyle("-fx-background-color:"+(item.getMonday()==1?"#ff0000ff":"#0000ffff"));
                         }
@@ -75,7 +97,7 @@ public class StartWindowController implements Initializable {
                 return cell;
             }
         });
-        Season.setCellFactory(new Callback<TableColumn<Session,Session>,TableCell<Session,Session>>() {
+        FXUtils.setupTableColumnView(Season,new Callback<TableColumn<Session,Session>,TableCell<Session,Session>>() {
             @Override
             public TableCell<Session,Session> call(TableColumn<Session,Session> param) {
                 TableCell cell = new TableCell<Session,Session>(){
@@ -95,7 +117,7 @@ public class StartWindowController implements Initializable {
                 return cell;
             }
         });
-        Session.setCellFactory(new Callback<TableColumn<Session,Session>,TableCell<Session,Session>>() {
+        FXUtils.setupTableColumnView(Session,new Callback<TableColumn<Session,Session>,TableCell<Session,Session>>() {
             @Override
             public TableCell<Session,Session> call(TableColumn<Session,Session> param) {
                 TableCell cell = new TableCell<Session,Session>(){
@@ -115,35 +137,12 @@ public class StartWindowController implements Initializable {
                 return cell;
             }
         });
-        ArrayList<Session> sess = new ArrayList();
-        for(int i = 2012; i < 2018;i++){
-            //Fall
-            for(int j = 0; j < 3;j++){
-                sess.add(new Session(""+i,"Fall",j));
-            }
-            //Spring
-            for(int j = 0; j < 3;j++){
-                sess.add(new Session(""+i,"Spring",j));
-            }
-            //Summer
-            for(int j = 0; j < 2;j++){
-                sess.add(new Session(""+i,"Summer",j));
-            }
-        }
-        setup(sess);
+        setup(((ResourceList<Session>)rb).getList());
     }    
     void setup(List<Session> row){
         ObservableList<Session> l = FXCollections.observableArrayList(row);
         System.out.println(l);
         this.TableViewer.setItems(l);
-    }
-    @FXML
-    private void onNewDocument(ActionEvent event) {
-        try {
-            FXHandler.handle.switchStage("com/cdarp/UI/FXML/ExcelWindow.fxml");
-        } catch (IOException ex) {
-            Logger.getLogger(StartWindowController.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
     private class EventHandlerSample implements EventHandler<MouseEvent> {
@@ -154,7 +153,7 @@ public class StartWindowController implements Initializable {
                 TableCell c = (TableCell) t.getSource();
                 int index = c.getIndex();
                 Session row = TableViewer.getItems().get(index);
-                FXHandler.handle.switchStage("com/cdarp/UI/FXML/ClassWindow.fxml");
+                FXHandler.handle.switchStage(FXHandler.FX_PAGE_DIR_EXCEL_CLASS_WINDOW,FakeDatabase.getClassSession(row));
             } catch (IOException ex) {
                 Logger.getLogger(StartWindowController.class.getName()).log(Level.SEVERE, null, ex);
             }

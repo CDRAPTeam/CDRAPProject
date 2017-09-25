@@ -16,8 +16,9 @@ public class DateTimeRow {
     public static final int TIME_FRAME_MAX = 24*2;//30 minute slots
     private int timeFrame;
     private int monday,tuesday,wendsday,thursday,friday,saturday,sunday;
+    private ClassSession parent;
 
-    public DateTimeRow(int timeFrame, int monday, int tuesday, int wendsday, int thursday, int friday, int saturday, int sunday) {
+    public DateTimeRow(ClassSession parent,int timeFrame, int monday, int tuesday, int wendsday, int thursday, int friday, int saturday, int sunday) {
         this.timeFrame = timeFrame;
         this.monday = monday;
         this.tuesday = tuesday;
@@ -26,9 +27,10 @@ public class DateTimeRow {
         this.friday = friday;
         this.saturday = saturday;
         this.sunday = sunday;
+        this.parent = parent;
     }
-    public DateTimeRow(int timeFrame){
-        this(timeFrame,0,0,0,0,0,0,0);
+    public DateTimeRow(ClassSession parent,int timeFrame){
+        this(parent,timeFrame,0,0,0,0,0,0,0);
     }
     public int getTimeFrame() {
         return timeFrame;
@@ -96,6 +98,9 @@ public class DateTimeRow {
 
     public void setSunday(int sunday) {
         this.sunday = sunday;
+    }
+    public ClassSession getParent(){
+    	return parent;
     }
     
 }

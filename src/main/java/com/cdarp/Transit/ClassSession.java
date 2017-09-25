@@ -10,10 +10,12 @@ package com.cdarp.Transit;
  * @author Navnik
  */
 public class ClassSession {
+	private Session parent;
     private String room;
 
-    public ClassSession(String room) {
+    public ClassSession(Session parent,String room) {
         this.room = room;
+        this.parent = parent;
     }
 
     public String getRoom() {
@@ -22,6 +24,9 @@ public class ClassSession {
 
     public void setRoom(String room) {
         this.room = room;
+    }
+    public Session getParent(){
+    	return parent;
     }
     
 }
